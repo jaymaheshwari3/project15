@@ -1,0 +1,32 @@
+---
+- name: Install and configure web server
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create website page
+      copy:
+        content: |
+          <html>
+          <head><title>Ansible Project 15</title></head>
+          <body>
+          <h1>Welcome to Ansible Automation!</h1>
+          <p>Nginx installed using an Ansible playbook.</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
